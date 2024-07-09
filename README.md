@@ -74,6 +74,7 @@ dotnet add package SemanticBlazor
 <link href="~/_content/SemanticBlazor/SemanticBlazor.css" rel="stylesheet" />
 <script src="~/_content/SemanticBlazor/SemanticBlazor.js"></script>
 ```
+For BlazorWasm projects, the "~/" should be omitted from the above links.
 
 ## Usage
 
