@@ -33,7 +33,7 @@ Fomantic UI is the official community fork of Semantic UI.
 [More about Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
 
 ## Prerequisites
-- .NET Core 3.1.8
+- .NET Core 8.0
 - Any .NET Core developer IDE (Visual Studio, VS Code...)
 
 ## Installation 
@@ -74,6 +74,7 @@ dotnet add package SemanticBlazor
 <link href="~/_content/SemanticBlazor/SemanticBlazor.css" rel="stylesheet" />
 <script src="~/_content/SemanticBlazor/SemanticBlazor.js"></script>
 ```
+For BlazorWasm projects, the "~/" should be omitted from the above links and they should placed in the Head section of wwwroot/index.html
 
 ## Usage
 
