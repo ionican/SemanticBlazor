@@ -115,6 +115,15 @@ namespace SemanticBlazor
     Large,
     Fullscreen
   }
+  
+  public enum PopupSize
+  {
+    Mini,
+    Tiny,
+    Small,
+    Large,
+    Huge
+  }
 
   #endregion
 

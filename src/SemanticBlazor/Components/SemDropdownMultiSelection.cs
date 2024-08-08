@@ -8,11 +8,11 @@ using SemanticBlazor.Components.Base.Dropdown;
 
 namespace SemanticBlazor.Components
 {
-  public class SemDropdownMultiSelection<TValue> : SemDropdownMultiSelectionBase<ListItem, TValue>
+  public class SemDropdownMultiSelection<TValue> : SemDropdownMultiSelectionBase<ListItem<TValue>, TValue>
   {
     #region ListItems
     [Obsolete]
-    [Parameter] public override IEnumerable<ListItem> Items { get; set; }
+    [Parameter] public override IEnumerable<ListItem<TValue>> Items { get; set; }
     [Parameter] public override RenderFragment ListItems { get; set; }
     #endregion
   }

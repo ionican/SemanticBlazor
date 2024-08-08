@@ -1,7 +1,9 @@
 ﻿@using SemanticBlazor.Components.Base.Common
+@typeparam TValue
+
 @code {
   [CascadingParameter] public SemControlBase Parent { get; set; }
-  [Parameter] public string Value { get; set; }
+  [Parameter] public TValue Value { get; set; }
   [Parameter] public string Text { get; set; }
   [Parameter] public object Model { get; set; }
 

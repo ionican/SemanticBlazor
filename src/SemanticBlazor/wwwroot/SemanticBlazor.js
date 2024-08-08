@@ -228,3 +228,12 @@ window.Notification = {
     });
   }
 }
+
+window.SemanticPopup = {
+    Init: function (element) {
+        $(element).popup();
+    },
+    Destroy: function (element) {
+        $(element).popup('destroy');
+    }
+};

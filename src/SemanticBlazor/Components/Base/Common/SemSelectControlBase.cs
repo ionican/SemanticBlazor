@@ -56,14 +56,16 @@ namespace SemanticBlazor.Components.Base.Common
 
     internal override void RegisterChildControl(object control)
     {
-      if (control.GetType() == typeof(SemSelectListItem))
+      var a=control.GetType();
+      var b=typeof(SemSelectListItem<TValue>);
+      if (control.GetType() == typeof(SemSelectListItem<TValue>))
       {
         if (_itemsSet)
         {
           throw new Exception("ListItems cannot be set via SemSelectListItem. Items are already set via Items or DataMethod parameter.");
         }
         if (Items == null) Items = new List<TItem>();
-        ((List<ListItem>) Items).Add(new ListItem() {Text = ((SemSelectListItem) control).Text, Value = ((SemSelectListItem) control).Value});
+        ((List<ListItem<TValue>>) Items).Add(new ListItem<TValue>() {Text = ((SemSelectListItem<TValue>) control).Text, Value = ((SemSelectListItem<TValue>) control).Value});
         StateHasChanged();
       }
     }

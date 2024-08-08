@@ -2,6 +2,7 @@
 using Microsoft.JSInterop;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 
 namespace SemanticBlazor
 {
@@ -100,6 +101,19 @@ namespace SemanticBlazor
       public static async Task SetHidingTimeout(IJSRuntime jsRuntime, string id)
       {
         await jsRuntime.InvokeAsync<object>("NotifcationPanel.SetHidingTimeout", id);
+      }
+    }
+
+    public static class Popup
+    {
+      public static async Task Init(IJSRuntime jsRuntime, string id)
+      {
+        await jsRuntime.InvokeAsync<object>("SemanticPopup.Init", id);
+      }
+      
+      public static async Task Disable(IJSRuntime jsRuntime, string id)
+      {
+        await jsRuntime.InvokeAsync<object>("SemanticPopup.Destroy", id);
       }
     }
 

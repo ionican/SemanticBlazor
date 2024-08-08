@@ -1,0 +1,56 @@
+﻿@using SemanticBlazor.Components.Base.Common
+@using SemanticBlazor.Mappers
+@inherits SemanticBlazor.Components.Base.Common.SemControlBase
+
+<div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes" data-content="@TooltipText">
+  @ChildContent
+</div>
+
+
+
+@code {
+  [Parameter] public RenderFragment ChildContent { get; set; }
+  [Parameter] public string TooltipText { get; set; }
+  [Parameter] public bool Active { get; set; } = true;
+  [Parameter] public ModalSize? Size { get; set; }
+  
+  private bool previousActive;
+  
+  public SemPopup()
+  {
+    ClassMapper
+      .Add("ui")
+      .Get(() => Size?.ToString().ToLower());
+  }
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender && Active)
+    {
+      Console.WriteLine("Popup Init");
+      await JsFunc.Popup.Init(JsRuntime, Id);
+      await Task.Delay(1);
+    }
+  }
+  
+  protected override async Task OnParametersSetAsync()
+  {
+    if (Active != previousActive)
+    {
+      if (Active)
+      {
+        Console.WriteLine("Popup Init");
+        await JsFunc.Popup.Init(JsRuntime, Id);
+      }
+      else
+      {
+        Console.WriteLine("Popup Disable");
+        await JsFunc.Popup.Disable(JsRuntime, Id);
+      }
+      previousActive = Active;
+    }
+
+    await Task.Delay(1);
+  }
+
+}

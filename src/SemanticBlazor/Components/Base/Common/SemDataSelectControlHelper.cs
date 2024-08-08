@@ -16,7 +16,7 @@ namespace SemanticBlazor.Components.Base.Common
         {
           retval = items.FirstOrDefault(i => valueSelector.Invoke(i).Equals(value));
         }
-        else if (typeof(TItem) == typeof(ListItem))
+        else if (typeof(TItem) == typeof(ListItem<TValue>))
         {
           retval = items.FirstOrDefault(i => i.ToString() == value.ToString());
         }
@@ -42,10 +42,10 @@ namespace SemanticBlazor.Components.Base.Common
         {
           return itemText(item);
         }
-        if (typeof(TItem) == typeof(ListItem))
+        if (typeof(TItem) == typeof(ListItem<TValue>))
         {
-          ListItem liItem = ((ListItem)Convert.ChangeType(item, typeof(ListItem)));
-          return liItem.Text ?? liItem.Value;
+          ListItem<TValue> liItem = ((ListItem<TValue>)Convert.ChangeType(item, typeof(ListItem<TValue>)));
+          return liItem.Text ?? liItem.Value.ToString();
         }
         return item.ToString();
       }
@@ -59,7 +59,7 @@ namespace SemanticBlazor.Components.Base.Common
       {
         retval = itemKey(item).ToString();
       }
-      else if (typeof(TItem) == typeof(ListItem))
+      else if (typeof(TItem) == typeof(ListItem<TValue>))
       {
         retval = item.ToString();
       }
@@ -78,7 +78,7 @@ namespace SemanticBlazor.Components.Base.Common
       {
         return valueSelector.Invoke(item);
       }
-      return typeof(TItem) == typeof(ListItem) ? TryChangeTypeOfList(newValue) : TryChangeType(item);
+      return typeof(TItem) == typeof(ListItem<TValue>) ? TryChangeTypeOfList(newValue) : TryChangeType(item);
     }
     private static object TryChangeType(TItem item)
     {
