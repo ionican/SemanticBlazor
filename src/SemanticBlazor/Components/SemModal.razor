@@ -1,5 +1,7 @@
-﻿@using SemanticBlazor.Mappers
+﻿@using Microsoft.AspNetCore.Components.Routing
+@using SemanticBlazor.Mappers
 @inherits SemanticBlazor.Components.Base.Common.SemControlBase
+@inject NavigationManager NavManager
 
 @if (Visible)
 {
@@ -56,5 +58,27 @@
   public async Task SubmitForm()
   {
     await JsFunc.Modal.SubmitForm(JsRuntime, Id);
+  }
+  
+  private string currentUri;
+
+  protected override void OnInitialized()
+  {
+    currentUri = NavManager.Uri;
+    NavManager.LocationChanged += OnLocationChanged;
+  }
+
+  private void OnLocationChanged(object sender, LocationChangedEventArgs e)
+  {
+    if (currentUri != e.Location)
+    {
+      Hide();
+    }
+    currentUri = e.Location;
+  }
+
+  public void Dispose()
+  {
+    NavManager.LocationChanged -= OnLocationChanged;
   }
 }
