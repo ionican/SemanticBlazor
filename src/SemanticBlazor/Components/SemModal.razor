@@ -8,7 +8,7 @@
   <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
     @if (CloseIcon != ModalCloseIcon.None)
     {
-      <i class="close @(CloseIcon == ModalCloseIcon.Inside ? "inside" : "") icon"></i>
+      <i class="close @(CloseIcon == ModalCloseIcon.Inside ? "inside" : "") icon" @onclick="()=>OnClose.InvokeAsync()"></i>
     }
     <div class="@HeaderClass header">
       @Header
@@ -33,6 +33,7 @@
   [Parameter] public bool AllowMultiple { get; set; }
   [Parameter] public bool Closable { get; set; } = true;
   [Parameter] public ModalCloseIcon CloseIcon { get; set; } = ModalCloseIcon.Outside;
+  [Parameter] public EventCallback OnClose { get; set; }
 
   /*
     TODO: Not implemented parameters:
@@ -54,6 +55,7 @@
   public async Task Hide()
   {
     await JsFunc.Modal.Hide(JsRuntime, Id);
+    await OnClose.InvokeAsync();
   }
   public async Task SubmitForm()
   {
