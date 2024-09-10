@@ -12,7 +12,7 @@ namespace SemanticBlazor.Models
 
     public override string ToString()
     {
-      return !string.IsNullOrEmpty(Value.ToString()) ? Value.ToString() : Text;
+      return !string.IsNullOrEmpty(Value?.ToString()) ? Value.ToString() : Text;
     }
 
     public bool Equals(ListItem<TValue> other)
