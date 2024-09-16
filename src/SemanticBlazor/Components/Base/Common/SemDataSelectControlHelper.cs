@@ -101,7 +101,22 @@ namespace SemanticBlazor.Components.Base.Common
       {
         return (TValue) Enum.Parse(typeof(TValue), newValue.ToString());
       }
-      return (TValue) Convert.ChangeType(newValue, typeof(TValue));
+
+      if (typeof(TValue) == typeof(bool?))
+      {
+        return newValue.ToString().ToUpper()=="FALSE" ? false : 
+          newValue.ToString().ToUpper()=="TRUE" ? true : null;
+      }
+
+      try
+      {
+        var ret= (TValue) Convert.ChangeType(newValue, typeof(TValue));
+        return ret;
+      }
+      catch (Exception err)
+      {
+        throw new Exception($"Cannot convert [{newValue}] to defined TValue ({typeof(TValue).Name}). {err.Message}");
+      }
     }
   }
 }
