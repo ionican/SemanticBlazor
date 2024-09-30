@@ -124,11 +124,26 @@
     }
     else if (typeof(TValue) == typeof(decimal?) || typeof(TValue) == typeof(decimal))
     {
-      if (Decimal.TryParse(e.Value.ToString(), out var val)) //.Replace(".", ",")
+      if (Decimal.TryParse(e?.Value?.ToString(), out var val)) //.Replace(".", ",")
       {
         Value = (TValue) (object) val;
       }
-      else if (Decimal.TryParse(e.Value.ToString().Replace(".", ","), out val))
+      else if (Decimal.TryParse(e?.Value?.ToString()?.Replace(".", ","), out val))
+      {
+        Value = (TValue) (object) val;
+      }
+      else
+      {
+        Value = default;
+      }
+    }
+    else if (typeof(TValue) == typeof(double?) || typeof(TValue) == typeof(double))
+    {
+      if (Double.TryParse(e?.Value?.ToString(), out var val)) //.Replace(".", ",")
+      {
+        Value = (TValue) (object) val;
+      }
+      else if (Double.TryParse(e?.Value?.ToString()?.Replace(".", ","), out val))
       {
         Value = (TValue) (object) val;
       }
@@ -139,7 +154,7 @@
     }
     else
     {
-      Value = (TValue) Convert.ChangeType(e.Value.ToString(), typeof(TValue));
+      Value = (TValue) Convert.ChangeType(e?.Value?.ToString(), typeof(TValue));
     }
 
     await NotifyChanged();
