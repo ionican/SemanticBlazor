@@ -28,7 +28,7 @@
       {
         @foreach (var item in Items)
         {
-          <div class="item" data-value="@(GetItemKey(item))">
+          <div class="item @ItemClass" data-value="@(GetItemKey(item))">
             @if (ItemTemplate != null)
             {
               @ItemTemplate(item)
@@ -45,21 +45,14 @@
 }
 
 @code {
-  [Parameter]
-  public string DefaultText { get; set; } = "Select...";
-  [Parameter]
-  public Icon? Icon { get; set; }
-  [Parameter]
-  public bool Search { get; set; }
-  [Parameter]
-  public bool Scrolling { get; set; }
-  [Parameter]
-  [Obsolete]
-  public bool FullTextSearch { get; set; } = true;
-  [Parameter]
-  public DropdownFulltextSearch FulltextSearchMode { get; set; } = DropdownFulltextSearch.False;
-  [Parameter]
-  public bool Clearable
+  [Parameter] public string DefaultText { get; set; } = "Select...";
+  [Parameter] public string ItemClass { get; set; }
+  [Parameter] public Icon? Icon { get; set; }
+  [Parameter] public bool Search { get; set; }
+  [Parameter]  public bool Scrolling { get; set; }
+  [Parameter] [Obsolete] public bool FullTextSearch { get; set; } = true;
+  [Parameter] public DropdownFulltextSearch FulltextSearchMode { get; set; } = DropdownFulltextSearch.False;
+  [Parameter] public bool Clearable
   {
     get => _clearable;
     set
