@@ -34,12 +34,31 @@
   [Parameter] public bool Closable { get; set; } = true;
   [Parameter] public ModalCloseIcon CloseIcon { get; set; } = ModalCloseIcon.Outside;
   [Parameter] public EventCallback OnClose { get; set; }
-
+[Parameter] public bool? IsShown { get; set; }
   /*
     TODO: Not implemented parameters:
     - scrolling
     - basic
   */
+  
+
+
+  protected override async Task OnParametersSetAsync()
+  {
+    if (IsShown.HasValue)
+    {
+      if (IsShown.Value)
+      {
+        Console.WriteLine("Show");
+        await Show();
+      }
+      else
+      {
+        Console.WriteLine("Hide");
+        await Hide();
+      }
+    }
+  }
 
   public SemModal()
   {
