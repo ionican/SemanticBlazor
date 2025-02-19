@@ -23,7 +23,7 @@
       <SemIcon Icon="ButtonIcon"></SemIcon>
     }
     <div class="default text">@DefaultText</div>
-    <div class="menu">
+    <div class="@MenuClassMapper.ToString()">
       @if (Items != null)
       {
         @foreach (var item in Items)
@@ -46,6 +46,7 @@
 
 @code {
   [Parameter] public string DefaultText { get; set; } = "Select...";
+  [Parameter] public string MenuClass { get; set; }
   [Parameter] public string ItemClass { get; set; }
   [Parameter] public Icon? Icon { get; set; }
   [Parameter] public bool Search { get; set; }
@@ -64,6 +65,7 @@
       }
     }
   }
+  [Parameter] public bool Upward { get; set; }
 
   // Button paremeters
   [Parameter]
@@ -108,6 +110,7 @@
   private bool _changeFromGui;
   private bool IsValueChanged => LastStringValue != StringValue;
   private bool _clearable;
+  private ClassMapper MenuClassMapper = new ClassMapper();
 
   public SemDropdownSelectionBase()
   {
@@ -130,6 +133,10 @@
       .If("loading", () => Loading)
       .If("disabled", () => Loading)
       .Add("dropdown");
+    
+    MenuClassMapper.Add("menu")
+      .If("upward", () => Upward);
+    
   }
 
   protected override async Task OnAfterRenderAsync(bool firstRender)
