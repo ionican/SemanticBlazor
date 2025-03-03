@@ -87,22 +87,83 @@ window.SemanticTabularMenu = {
 };
 
 window.SemanticModal = {
-  Show: function (id, multiple, closable) {
-    $('#' + id)
-        .modal(
-            {
-              allowMultiple: multiple,
-              closable: closable
-            })
-        .modal('show');
-  },
-  Hide: function (id) {
-    $('#' + id).modal('hide');
-  },
-  SubmitForm: function (id) {
-    $('#' + id).find("input[type='submit']").click();
-  }
+    Show: function (id, multiple, closable) {
+        const modal = $('#' + id);
+        modal
+            .css('position', 'absolute')
+            .modal({ allowMultiple: multiple, closable: closable })
+            .modal('show');
+
+        if (modal.hasClass('draggable')) {
+            // Store state variables on the modal element
+            modal.data('isDown', false);
+            modal.data('offset', { x: 0, y: 0 });
+
+            const header = modal.find('.header');
+
+            // Remove any existing handlers first
+            header.off('mousedown.dragModal');
+            $(document).off('mouseup.dragModal-' + id);
+            $(document).off('mousemove.dragModal-' + id);
+
+            // Add namespaced event handlers for this specific modal
+            header.on('mousedown.dragModal', function (e) {
+                e.stopPropagation(); // Prevent event from reaching parent modals
+
+                modal.data('isDown', true);
+                const offset = {
+                    x: e.clientX - parseInt(modal.css('left')) || 0,
+                    y: e.clientY - parseInt(modal.css('top')) || 0
+                };
+                modal.data('offset', offset);
+
+                // Bring this modal to the front
+                modal.css('z-index', 1050 + $('.modal.visible').length);
+            });
+
+            $(document).on('mouseup.dragModal-' + id, function () {
+                modal.data('isDown', false);
+            });
+
+            $(document).on('mousemove.dragModal-' + id, function (e) {
+                if (modal.data('isDown')) {
+                    const offset = modal.data('offset');
+                    modal.css({
+                        top: (e.clientY - offset.y) + 'px',
+                        left: (e.clientX - offset.x) + 'px'
+                    });
+                }
+            });
+        }
+    },
+    Hide: function (id) {
+        // Clean up event handlers
+        $(document).off('mouseup.dragModal-' + id);
+        $(document).off('mousemove.dragModal-' + id);
+        $('#' + id).modal('hide');
+    },
+    SubmitForm: function (id) {
+        $('#' + id).find("input[type='submit']").click();
+    }
 };
+
+// window.SemanticModal = {
+//   Show: function (id, multiple, closable) {
+//     $('#' + id)
+//         .modal(
+//             {
+//               allowMultiple: multiple,
+//               closable: closable
+//             })
+//         .modal('show');
+//   },
+//   Hide: function (id) {
+//     $('#' + id).modal('hide');
+//   },
+//   SubmitForm: function (id) {
+//     $('#' + id).find("input[type='submit']").click();
+//   }
+// };
 
 window.SemanticForm =
     {
