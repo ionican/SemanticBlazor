@@ -215,8 +215,10 @@ window.SemanticDateTimeInput = {
           },
           onHidden: function () {
             var element = document.getElementById("inpt_" + id);
-            var event = new Event('change');
-            element.dispatchEvent(event);
+              if (element) {
+                  var event = new Event('change');
+                  element.dispatchEvent(event);
+              }
           },
           text: {
             days: [getDayName(1, locale), getDayName(2, locale), getDayName(3, locale), getDayName(4, locale), getDayName(5, locale), getDayName(6, locale), getDayName(7, locale)],
@@ -242,8 +244,10 @@ window.SemanticDateTimeInput = {
           },
           onHidden: function () {
             var element = document.getElementById("inpt_" + id);
-            var event = new Event('change');
-            element.dispatchEvent(event);
+              if (element) {
+                  var event = new Event('change');
+                  element.dispatchEvent(event);
+              }
           },
           text: {
             now: 'Teď'
