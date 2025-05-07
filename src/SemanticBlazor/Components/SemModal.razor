@@ -5,10 +5,10 @@
 
 @if (Visible)
 {
-  <div id="@Id" class="@ClassMapper.ToString()" style="@Style" @attributes="Attributes">
+  <div id="@Id" class="@ClassMapper.ToString()" style="@Style;max-width:100%;" @attributes="Attributes">
     @if (CloseIcon != ModalCloseIcon.None)
     {
-      <i class="close @(CloseIcon == ModalCloseIcon.Inside ? "inside" : "") icon" @onclick="()=>OnClose.InvokeAsync()"></i>
+      <i class="close @(CloseIcon == ModalCloseIcon.Outside ? "" : "inside") icon" @onclick="()=>OnClose.InvokeAsync()"></i>
     }
     <div class="@HeaderClass header">
       @Header
@@ -32,7 +32,7 @@
   [Parameter] public string ActionsClass { get; set; }
   [Parameter] public bool AllowMultiple { get; set; }
   [Parameter] public bool Closable { get; set; } = true;
-  [Parameter] public ModalCloseIcon CloseIcon { get; set; } = ModalCloseIcon.Outside;
+  [Parameter] public ModalCloseIcon CloseIcon { get; set; } = ModalCloseIcon.Inside;
   [Parameter] public EventCallback OnClose { get; set; }
 [Parameter] public bool? IsShown { get; set; }
   /*
@@ -40,8 +40,6 @@
     - scrolling
     - basic
   */
-  
-
 
   protected override async Task OnParametersSetAsync()
   {
@@ -66,6 +64,8 @@
       .Add("ui")
       .Get(() => Size?.ToString().ToLower())
       .Add("modal");
+
+
   }
   public async Task Show()
   {
